@@ -1,6 +1,58 @@
 REM   Script: GroupProject
 REM   Movies -group project
 
+CREATE TABLE RATINGS(
+    Rating VARCHAR(100),
+    Minimum_Age INTEGER,
+    Description VARCHAR(100),
+    Acceptable VARCHAR(100),
+    PRIMARY KEY(Rating)
+);
+
+INSERT INTO RATINGS VALUES ('G', 0, 'General Audiences – All Ages Admitted', 'Yes');
+
+INSERT INTO RATINGS VALUES ('PG', 7, 'Parental Guidance Suggested – Some Material May Not Be Suitable for Children', 'Yes');
+
+INSERT INTO RATINGS VALUES ('PG-13', 13, 'Parents Strongly Cautioned – May Be Inappropriate for Children Under 13', 'Yes');
+
+INSERT INTO RATINGS VALUES ('R', 17, 'Restricted – Under 17 Requires Accompanying Parent or Adult Guardian', 'Depends');
+
+INSERT INTO RATINGS VALUES ('NC-17', 18, 'Adults Only – No One 17 and Under Admitted', 'No');
+
+CREATE TABLE GENRES(
+    Genre VARCHAR(100),
+    Description VARCHAR(256),
+    Acceptable VARCHAR(100),
+    PRIMARY KEY(Genre)
+);
+
+INSERT INTO GENRES VALUES ('Action', 'Should contain numerous scenes where action is spectacular and usually destructive.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Adventure', 'Should contain numerous consecutive and inter-related scenes of characters participating in hazardous or exciting experiences for a specific goal.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Animation', 'Over 75% of the titles running time should have scenes that are wholly, or part-animated.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Comedy', 'Virtually all scenes should contain characters participating in humorous or comedic experiences.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Crime', 'Whether the protagonists or antagonists are criminals this should contain numerous scenes of characters participating, aiding, abetting, and/or planning criminal behavior.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Drama', 'Should contain numerous consecutive scenes of characters portrayed to effect a serious narrative throughout the title, usually involving conflicts and emotions. ', 'Yes');
+
+INSERT INTO GENRES VALUES ('Fantasy', 'Should contain numerous consecutive scenes of characters portrayed to effect a magical and/or mystical narrative throughout the title.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Horror', 'Should contain numerous consecutive scenes of characters effecting a terrifying and/or repugnant narrative throughout the title.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Musical', 'Should contain several scenes of characters bursting into song aimed at the viewer.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Romance', 'Should contain numerous inter-related scenes of a character and their personal life with emphasis on emotional attachment or involvement with other characters.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Sci-Fi', 'Should be based on speculative scientific discoveries or developments, environmental changes, space travel, or life on other planets.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Thriller', 'Should contain numerous sensational scenes or a narrative that is sensational or suspenseful.', 'Yes');
+
+INSERT INTO GENRES VALUES ('Western', 'Should contain numerous scenes and/or a narrative where the portrayal is similar to that of frontier life in the American West during 1600s to contemporary times.', 'Yes');
+
+
 CREATE TABLE MOVIES (
     Movie_ID INTEGER NOT NULL,
     Title VARCHAR(100) NOT NULL,
@@ -101,57 +153,6 @@ INSERT INTO SERIES VALUES (18, 10, 'Friday the 13th', 'Yes');
 INSERT INTO SERIES VALUES (19, 11, 'Friday the 13th', 'Yes');
 
 INSERT INTO SERIES VALUES (20, 12, 'Friday the 13th', 'Yes');
-
-CREATE TABLE RATINGS(
-    Rating VARCHAR(100),
-    Minimum_Age INTEGER,
-    Description VARCHAR(100),
-    Acceptable VARCHAR(100),
-    PRIMARY KEY(Rating)
-);
-
-INSERT INTO RATINGS VALUES ('G', 0, 'General Audiences – All Ages Admitted', 'Yes');
-
-INSERT INTO RATINGS VALUES ('PG', 7, 'Parental Guidance Suggested – Some Material May Not Be Suitable for Children', 'Yes');
-
-INSERT INTO RATINGS VALUES ('PG-13', 13, 'Parents Strongly Cautioned – May Be Inappropriate for Children Under 13', 'Yes');
-
-INSERT INTO RATINGS VALUES ('R', 17, 'Restricted – Under 17 Requires Accompanying Parent or Adult Guardian', 'Depends');
-
-INSERT INTO RATINGS VALUES ('NC-17', 18, 'Adults Only – No One 17 and Under Admitted', 'No');
-
-CREATE TABLE GENRES(
-    Genre VARCHAR(100),
-    Description VARCHAR(256),
-    Acceptable VARCHAR(100),
-    PRIMARY KEY(Genre)
-);
-
-INSERT INTO GENRES VALUES ('Action', 'Should contain numerous scenes where action is spectacular and usually destructive.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Adventure', 'Should contain numerous consecutive and inter-related scenes of characters participating in hazardous or exciting experiences for a specific goal.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Animation', 'Over 75% of the titles running time should have scenes that are wholly, or part-animated.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Comedy', 'Virtually all scenes should contain characters participating in humorous or comedic experiences.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Crime', 'Whether the protagonists or antagonists are criminals this should contain numerous scenes of characters participating, aiding, abetting, and/or planning criminal behavior.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Drama', 'Should contain numerous consecutive scenes of characters portrayed to effect a serious narrative throughout the title, usually involving conflicts and emotions. ', 'Yes');
-
-INSERT INTO GENRES VALUES ('Fantasy', 'Should contain numerous consecutive scenes of characters portrayed to effect a magical and/or mystical narrative throughout the title.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Horror', 'Should contain numerous consecutive scenes of characters effecting a terrifying and/or repugnant narrative throughout the title.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Musical', 'Should contain several scenes of characters bursting into song aimed at the viewer.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Romance', 'Should contain numerous inter-related scenes of a character and their personal life with emphasis on emotional attachment or involvement with other characters.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Sci-Fi', 'Should be based on speculative scientific discoveries or developments, environmental changes, space travel, or life on other planets.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Thriller', 'Should contain numerous sensational scenes or a narrative that is sensational or suspenseful.', 'Yes');
-
-INSERT INTO GENRES VALUES ('Western', 'Should contain numerous scenes and/or a narrative where the portrayal is similar to that of frontier life in the American West during 1600s to contemporary times.', 'Yes');
 
 CREATE TABLE USERS(
     Username VARCHAR(100) NOT NULL,
