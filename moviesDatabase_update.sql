@@ -4,7 +4,7 @@ REM   Movies -group project
 CREATE TABLE GENRES(
     Genre VARCHAR(100),
     Description VARCHAR(256),
-    Acceptable VARCHAR(100),
+    Acceptable VARCHAR(100) DEFAULT 'Yes',
     PRIMARY KEY(Genre)
 );
 
@@ -84,7 +84,7 @@ CREATE TABLE MOVIES (
     Year NUMERIC(4,0) NOT NULL CHECK (Year >= 1900),
     Minutes INTEGER NOT NULL CHECK (Minutes > 0),
     Genre VARCHAR(100),
-    Number_Series INTEGER,
+    Number_Series INTEGER DEFAULT NULL,
     Rating VARCHAR(100),
     Streaming VARCHAR(100) NOT NULL,
     PRIMARY KEY(Movie_ID),
@@ -159,7 +159,7 @@ INSERT INTO MOVIES VALUES (30, 'Guardians of the Galaxy', 2014, 121, 'Adventure'
 
 CREATE TABLE SERIES (
     Movie_ID INTEGER NOT NULL,
-    Number_Series INTEGER,
+    Number_Series INTEGER DEFAULT NULL,
     Movie_Series VARCHAR(100), 
     Active VARCHAR(100) DEFAULT 'Yes' CHECK (Active IN ('Yes', 'No')),
     PRIMARY KEY(Movie_ID),
@@ -316,6 +316,4 @@ INSERT INTO RANKINGS VALUES (22, 'silentFilmsfan', 5);
 
 INSERT INTO RANKINGS VALUES (23, 'laughHappy23', 5);
 INSERT INTO RANKINGS VALUES (24, 'laughHappy23', 4);
-
-
 
