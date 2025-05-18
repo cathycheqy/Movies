@@ -511,10 +511,3 @@ FROM MOVIES m
 JOIN SERIES s ON m.Movie_ID = s.Movie_ID
 JOIN RATINGS r ON m.Rating = r.Rating
 JOIN GENRES g ON m.Genre = g.Genre;
-
-
-
-
-
- 
-
