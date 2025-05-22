@@ -37,6 +37,14 @@
       
     }
 
+    .navbar, .navbar * {
+      margin-left:0;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+
     .middle-section {
       flex: 1;
       max-width: 500px;
@@ -77,18 +85,18 @@
       width: 20px;
     }
 
+     .search-button:hover {
+      background-color: #666;
+    }
+
     .right-section {
       margin-right: 20px;
     }
 
-    .navbar, .navbar * {
-      border: none !important;
-      box-shadow: none !important;
-      outline: none !important;
-    }
-
+    
     .streaming-logo {
       display: flex;
+      justify-content: center;
       overflow-x: auto;
       gap: 16px;
       padding: 16px 0;
@@ -129,7 +137,8 @@
     }
 
     .card-body {
-      max-width: 390px; 
+      max-width: 450px; 
+      margin: 0 auto;
          
     }
 
@@ -141,20 +150,38 @@
 
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <img class="logo" src="pics/Movies.png" alt="Just Movies Logo" />
+  
+ <header class="header">
+    <div class="left-section">
+      <img class="logo" src="pics/Movies.png" alt="Just Movies Logo" />
+    </div>
 
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+ 
       <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="query2.html">Movies</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Ratings</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Rankings</a></li>
-          <li class="nav-item"><a class="nav-link" href="StreamServices.html">Streaming Services</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home
+          
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="query2.html">Movies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Ratings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Rankings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="StreamServices.html">Streaming Services</a>
+          </li>
+          
         </ul>
+        
       </div>
+      
     </nav>
 
     <div class="middle-section">
@@ -245,8 +272,8 @@
       <div class="card-body">
         
         <form id="StreamServicesForm">
-          <label for="NumOfStreamingServices" class="form-label mt-4">Streaming Services with More Than One Movie</label>
-         <input type="Text" class="form-control" id="exampleInputPassword1" placeholder="Please type a number" autocomplete="off">
+         <label for="NumOfStreamingServices" class="form-label mt-4">Streaming Services with More Than One Movie</label>
+         <input type="Text" pattern="\d+" class="form-control" id="NumOfStreamingServices" placeholder="Please type a number" autocomplete="off">
          <button type="submit" class="btn btn-secondary custom-search-button">Show All Services with Multiple Movies</button>
 
         </form>
@@ -256,7 +283,7 @@
     <!-- Table for displaying results -->
     <div class="card mb-3"  id="resultSection" style="display: none;">
       <div class="card-body">
-        <h3>Streaming Services</h3>
+        <h5>Streaming Services</h5>
         <table class="table table-hover" id="resultsTable">
           <thead>
             <tr>
