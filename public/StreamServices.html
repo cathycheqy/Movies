@@ -196,7 +196,7 @@
     </div>
   </header>
 
-  <!-- Main -->
+ 
   <main>
 
    <nav class="streaming-logo">
@@ -293,13 +293,41 @@
           </thead>
           <tbody>
             <!-- Results will be here-->
-          </tbody>
+          </tbody id = "resultsBody">
         </table>
       </div>
     </div>
 
   </main>
 
+  <!--JavaScript for handing form submission and displaying results-->
+  <script>
+    document.getElementById('StreamServicesForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const NumOfStreamingServices = document.getElementById('NumOfStreamingServices').value;
+      const response = await fetch(`/StreamServices?NumOfStreamingServices=${encodeURIComponent(NumOfStreamingServices)}`);
+      const resultSection = document.getElementById('resultSection');
+      const resultsBody = document.getElementById('resultsBody');
+      if (!response.ok) {
+        resultSection.style.display = 'block';
+        resultsBody.innerHTML = `<tr><td colspan="5">No Stream Services found with more than ${NumOfStreamingServices} movies.</td></tr>`;
+        return;
+      }
+      const data = await response.json();
+      resultSection.style.display = 'block';
+      resultsBody.innerHTML = '';
+      data.forEach(row => {
+        resultsBody.innerHTML += `
+          <tr>
+            <td>${row.StreamingServices}</td>
+            <td>${row.NumberOfMovies}</td>
+
+          </tr>
+        `;
+      });
+    });
+
+  </script>
 </body>
 </html>
 
