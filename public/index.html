@@ -15,7 +15,7 @@
       padding: 20px;
       position: relative;
       min-height: 100vh;
-      background-color: #121212;
+    
       color: white;
     }
 
@@ -37,6 +37,14 @@
       height: 36px;
     }
 
+    .navbar, .navbar * {
+      margin-left:0;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+
     .middle-section {
       flex: 1;
       max-width: 500px;
@@ -46,7 +54,7 @@
       overflow: hidden;
       background-color: #222;
       border: 1px solid #444;
-      transition: box-shadow 0.2s ease-in-out;
+      
     }
 
     .middle-section:has(.search-bar:focus) {
@@ -88,11 +96,7 @@
 
     .right-section {
       margin-right: 20px;
-      display: flex;
-      align-items: center;
-      width: 180px;
-      justify-content: space-between;
-      flex-shrink: 0;
+     
     }
 
     .sign-in {
@@ -102,6 +106,8 @@
       border-radius: 4px;
       color: white;
     }
+
+ 
 
     .background {
       position: absolute;
@@ -161,8 +167,37 @@
       <img class="logo" src="pics/Movies.png" alt="Just Movies Logo" />
     </div>
 
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+ 
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home
+         
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="query2.html">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Ratings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Rankings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="StreamServices.html">Streaming Services</a>
+        </li>
+        
+      </ul>
+      
+    </div>
+    </div>
+  </nav>
+
+
      <div class="middle-section">
-      <input class="search-bar" type="text" placeholder="Search" aria-label="Search" />
+      <input class="search-bar" type="text" placeholder="Search" aria-label="Search for movies" />
       <button class="search-button" aria-label="Search Button">
       <img class="search-icon" src="pics/search-icon.png" alt="" aria-hidden="true" />
       </button>
@@ -175,9 +210,12 @@
   </header>
 
    
+ 
 
   <main>
     <img class="background" src="pics/background-movies.jpg" alt="Movie-themed background" />
+
+
 
     <div class="text">
       <h1>Welcome to Just Movies</h1>
@@ -195,7 +233,7 @@
 
       <div class="group-name">
         <p>This website is made by</p>
-        <p>Cathy Che, GracePark, Tiffany Morales and Zachary Anderson</p>
+        <p>Cathy Che, Grace Park, Tiffany Morales and Zachary Anderson</p>
       </div>
 
     

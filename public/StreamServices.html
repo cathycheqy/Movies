@@ -7,7 +7,6 @@
 
   <!-- Bootswatch Cyborg Theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cyborg/bootstrap.min.css" />
-
   <link rel="icon" type="image/png" href="pics/Movies-icon.png" sizes="32x32" />
 
   <style>
@@ -15,7 +14,7 @@
       padding: 20px;
       position: relative;
       min-height: 100vh;
-      background-color: #121212;
+      
       color: white;
     }
 
@@ -27,7 +26,7 @@
       border-bottom: 1px solid #444;
     }
 
-    .left-section {
+     .left-section {
       margin-left: 40px;
       display: flex;
       align-items: center;
@@ -35,6 +34,7 @@
 
     .logo {
       height: 36px;
+      
     }
 
     .middle-section {
@@ -46,7 +46,6 @@
       overflow: hidden;
       background-color: #222;
       border: 1px solid #444;
-      transition: box-shadow 0.2s ease-in-out;
     }
 
     .middle-section:has(.search-bar:focus) {
@@ -66,7 +65,7 @@
     .search-button {
       background-color: #333;
       border: none;
-      padding: 0 20px; 
+      padding: 0 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -78,144 +77,202 @@
       width: 20px;
     }
 
-
-
-    .search-button:hover {
-      background-color: #666;
-    }
-
-  
-
     .right-section {
       margin-right: 20px;
+    }
+
+    .navbar, .navbar * {
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+    .streaming-logo {
       display: flex;
-      align-items: center;
-      width: 180px;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-
-    .sign-in {
-      background-color: #ee241d;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      color: white;
-    }
-
-    .background {
-      position: absolute;
-      top: 100px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      object-fit: cover;
-      z-index: -1;
-      opacity: 0.25;
+      overflow-x: auto;
+      gap: 16px;
+      padding: 16px 0;
       
     }
 
-    .text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: white;
-      z-index: 1;
-      padding: 20px;
-    }
-
-    .discover-buttons{
-      margin-right:20px;
-    }
-    .group-name {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      color: white;
-      font-size: 0.95rem;
-      opacity: 0.85;
-    }
-
-
-
-
-
-
     
+
+    .streaming-link {
+      flex: 0 0 auto;
+    }
+
+    .streaming-link img {
+      height: 60px;
+      width: auto;
+      border-radius: 10px;
+      object-fit: contain;
+    }
+
+    .custom-search-button {
+      margin-top: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+    }
+
+
+    .card, .card-body {
+      background-color: transparent !important;
+      border: none !important;
+    }
+
+    .table tr {
+      background-color: transparent !important;
+    }
+
+    .table td {
+      color: white;
+    }
+
+    .card-body {
+      max-width: 390px; 
+         
+    }
+
+   
+
+
   </style>
 </head>
 
 <body>
-  <header class="header">
-    <div class="left-section">
-      <img class="logo" src="pics/Movies.png" alt="Just Movies Logo" />
-    </div>
 
-     <div class="middle-section">
-      <input class="search-bar" type="text" placeholder="Search" aria-label="Search" />
+  <!-- Header -->
+  <header class="header">
+    <img class="logo" src="pics/Movies.png" alt="Just Movies Logo" />
+
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+      <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="query2.html">Movies</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Ratings</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Rankings</a></li>
+          <li class="nav-item"><a class="nav-link" href="StreamServices.html">Streaming Services</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="middle-section">
+      <input class="search-bar" type="text" placeholder="Search" aria-label="Search for movies" />
       <button class="search-button" aria-label="Search Button">
-      <img class="search-icon" src="pics/search-icon.png" alt="" aria-hidden="true" />
+        <img class="search-icon" src="pics/search-icon.png" alt="search icon" />
       </button>
     </div>
-
 
     <div class="right-section">
       <button type="button" class="btn btn-danger">Sign in</button>
     </div>
   </header>
 
-   
-
+  <!-- Main -->
   <main>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Home</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Home
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Movies</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Ratings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Rankings</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-      </form>
+
+   <nav class="streaming-logo">
+
+
+    <div class="streaming-link">
+    <a href="https://www.netflix.com" target="_blank">
+      <img src="pics/netflix-logo.jpg" alt="Netflix">
+    </a>
     </div>
-  </div>
-</nav>
+
+    <div class="streaming-link">
+    <a href="https://www.disneyplus.com" target="_blank">
+      <img src="pics/Disney-logo.png" alt="Disney+">
+    </a>
+    </div>
+
+    <div class="streaming-link">
+    <a href="https://www.primevideo.com" target="_blank">
+      <img src="pics/PrimeVideo-Logo.png" alt="Prime Video">
+    </a>
+    </div>
+
+   <div class="streaming-link">
+    <a href="https://tv.apple.com" target="_blank">
+      <img src="pics/AppleTV-logo.png" alt="Apple TV+">
+    </a>
+    </div>
+
+    <div class="streaming-link">
+    <a href="https://www.hulu.com" target="_blank">
+      <img src="pics/hulu-logo.png" alt="Hulu">
+    </a>
+    </div>
+
+    <div class="streaming-link">
+    <a href="https://www.peacocktv.com" target="_blank">
+      <img src="pics/peacock-logo.png" alt="Peacock">
+    </a>
+    </div>
+
+
+    <div class="streaming-link">
+    <a href="https://www.paramountplus.com" target="_blank">
+      <img src="pics/Paramount_Plus-logo.png" alt="Paramount">
+    </a>
+    </div>
+
+    <div class="streaming-link">
+    <a href="https://ubitv.com/" target="_blank">
+      <img src="pics/tubi-logo.webp" alt="Tubi">
+    </a>
+    </div>
     
+
+    <div class="streaming-link">
+    <a href="https://www.max.com" target="_blank">
+      <img src="pics/Max-logo.jpg" alt="Max">
+    </a>
+    </div>
+
+    <div class="streaming-link">
+    <a href="https://www.youtube.com" target="_blank">
+      <img src="pics/Youtube-logo.png" alt="Youtube">
+    </a>
+    </div>
+
+
+  </nav>
+
+    <!-- Search Form -->
+    <div class="card mb-3">
+      <div class="card-body">
+        
+        <form id="StreamServicesForm">
+          <label for="NumOfStreamingServices" class="form-label mt-4">Streaming Services with More Than One Movie</label>
+         <input type="Text" class="form-control" id="exampleInputPassword1" placeholder="Please type a number" autocomplete="off">
+         <button type="submit" class="btn btn-secondary custom-search-button">Show All Services with Multiple Movies</button>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- Table for displaying results -->
+    <div class="card mb-3"  id="resultSection" style="display: none;">
+      <div class="card-body">
+        <h3>Streaming Services</h3>
+        <table class="table table-hover" id="resultsTable">
+          <thead>
+            <tr>
+              <th>Streaming Services</th>
+              <th>Number of Movies</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Results will be here-->
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   </main>
 
- 
 </body>
 </html>
+
