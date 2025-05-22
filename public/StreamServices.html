@@ -34,6 +34,7 @@
 
     .logo {
       height: 36px;
+      margin-right:40px;
       
     }
 
@@ -120,6 +121,7 @@
       margin-top: 10px;
       font-size: 1rem;
       border-radius: 8px;
+     
     }
 
 
@@ -154,9 +156,9 @@
  <header class="header">
     <div class="left-section">
       <img class="logo" src="pics/Movies.png" alt="Just Movies Logo" />
-    </div>
+  
 
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+      <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
  
       <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav me-auto">
@@ -181,9 +183,10 @@
         </ul>
         
       </div>
-      
-    </nav>
+    
+     </nav>
 
+    </div>
     <div class="middle-section">
       <input class="search-bar" type="text" placeholder="Search" aria-label="Search for movies" />
       <button class="search-button" aria-label="Search Button">
@@ -272,9 +275,9 @@
       <div class="card-body">
         
         <form id="StreamServicesForm">
-         <label for="NumOfStreamingServices" class="form-label mt-4">Streaming Services with More Than One Movie</label>
-         <input type="Text" pattern="\d+" class="form-control" id="NumOfStreamingServices" placeholder="Please type a number" autocomplete="off">
-         <button type="submit" class="btn btn-secondary custom-search-button">Show All Services with Multiple Movies</button>
+         <label for="NumOfStreamingServices" class="form-label mt-4">Find Streaming Services with More than X movies</label>
+         <input type="Text" pattern="\d+" class="form-control w-100" id="NumOfStreamingServices" placeholder="Please enter minimum number of movies" autocomplete="off">
+         <button type="submit" class="btn btn-secondary custom-search-button  w-100">Search Streaming Services</button>
 
         </form>
       </div>
@@ -287,7 +290,8 @@
         <table class="table table-hover" id="resultsTable">
           <thead>
             <tr>
-              <th>Streaming Services</th>
+              <th>Company</th>
+              <th>Streaming</th>
               <th>Number of Movies</th>
             </tr>
           </thead>
@@ -319,7 +323,8 @@
       data.forEach(row => {
         resultsBody.innerHTML += `
           <tr>
-            <td>${row.StreamingServices}</td>
+            <td>${row.Company}</td>
+            <td>${row.Streaming}</td>
             <td>${row.NumberOfMovies}</td>
 
           </tr>

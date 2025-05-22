@@ -480,10 +480,14 @@ JOIN RATINGS r ON m.Rating = r.Rating;
 
 -- SQL Query 7: Your own non-trivial queries using at least two tables
 -- Purpose: Find all streaming services that host more than one movie.
-SELECT Streaming, COUNT(*) AS Num_Movies
-FROM MOVIES
-GROUP BY Streaming
-HAVING COUNT(*) > 1;
+SELECT S.Company, S.Streaming, COUNT(*) AS Num_Movies
+FROM MOVIES M
+JOIN 
+    STREAMING_SERVICE S ON M.Streaming = S.Streaming
+GROUP BY 
+    S.Company, S.Streaming
+HAVING 
+    COUNT(*) > 1;
 
 -- SQL Query 8: Your own non-trivial queries using at least two tables
 -- Purpose: Display all movies that belong to genre marked as “Acceptable” in the GENRES 
