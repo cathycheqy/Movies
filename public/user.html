@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Streaming Services</title>
+  <title>User</title>
 
   <!-- Bootswatch Cyborg Theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cyborg/bootstrap.min.css" />
@@ -121,7 +121,6 @@
       margin-top: 10px;
       font-size: 1rem;
       border-radius: 8px;
-     
     }
 
 
@@ -171,10 +170,10 @@
             <a class="nav-link" href="movies.html">Movies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Ratings</a>
+            <a class="nav-link" href="rating.html">Rating</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Rankings</a>
+            <a class="nav-link" href="Ranking.html">Rankings</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="user.html">User</a>
@@ -274,33 +273,35 @@
   </nav>
 
     <!-- Search Form -->
-    <div class="card mb-3">
-      <div class="card-body">
-        
-        <form id="StreamServicesForm">
-         <label for="NumOfStreamingServices" class="form-label mt-4">Find Streaming Services with More than X movies</label>
-         <input type="Text" pattern="\d+" class="form-control w-100" id="NumOfStreamingServices" placeholder="Please enter minimum number of movies" autocomplete="off">
-         <button type="submit" class="btn btn-secondary custom-search-button  w-100">Search Streaming Services</button>
 
-        </form>
-      </div>
-    </div>
+    
+  <div class="container">
+      <!--query 1: SQL Query 1: Join at least three tables using JOIN ON-->
+      <!--Purpose: Find user’s favorite movie -->
+      <label for="userDropdown" class="form-label mt-4">Select an user:</label>
+
+      <select class="form-select" id="userDropdown">
+        <option>select an user</option>
+        
+      
+      </select>
+  </div>
+
 
     <!-- Table for displaying results -->
     <div class="card mb-3"  id="resultSection" style="display: none;">
       <div class="card-body">
-        <h5>Streaming Services</h5>
+       
         <table class="table table-hover" id="resultsTable">
           <thead>
             <tr>
-              <th>Company</th>
-              <th>Streaming</th>
-              <th>Number of Movies</th>
+              <th>User</th>
+              <th>Title</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id = "resultsBody">
             <!-- Results will be here-->
-          </tbody id = "resultsBody">
+          </tbody>
         </table>
       </div>
     </div>
@@ -309,32 +310,53 @@
 
   <!--JavaScript for handing form submission and displaying results-->
   <script>
-    document.getElementById('StreamServicesForm').addEventListener('submit', async function (event) {
-      event.preventDefault();
-      const NumOfStreamingServices = document.getElementById('NumOfStreamingServices').value;
-      const response = await fetch(`/StreamServices?NumOfStreamingServices=${encodeURIComponent(NumOfStreamingServices)}`);
-      const resultSection = document.getElementById('resultSection');
-      const resultsBody = document.getElementById('resultsBody');
-      if (!response.ok) {
-        resultSection.style.display = 'block';
-        resultsBody.innerHTML = `<tr><td colspan="3">No Stream Services found with more than ${NumOfStreamingServices} movies.</td></tr>`;
-        return;
-      }
-      const data = await response.json();
-      resultSection.style.display = 'block';
-      resultsBody.innerHTML = '';
-      data.forEach(row => {
-        resultsBody.innerHTML += `
-          <tr>
-            <td>${row.Company}</td>
-            <td>${row.Streaming}</td>
-            <td>${row.NumberOfMovies}</td>
-
-          </tr>
-        `;
+    document.addEventListener('DOMContentLoaded', async () => {
+  const dropdown = document.getElementById('userDropdown');
+  const resultSection = document.getElementById('resultSection'); 
+  const resultTableBody = document.getElementById('resultTableBody');
+  try {
+  // Fetch user list for the dropdown menu
+      const response = await fetch('/user'); // Backend endpoint 
+      const users = await response.json(); 
+      users.forEach(user => {
+        const option = document.createElement('option');
+        option.value = user.Username; // Set the username as the value
+        option.textContent = `${user.Username}`; // Display username
+        dropdown.appendChild(option);
       });
+    } catch (error) {
+        console.error('Error fetching username:', error); 
+    }
+// Automatically fetch and display username  details when user name is selected
+dropdown.addEventListener('change', async (event) => { 
+  const Username = event.target.value;
+  if (!Username) {
+    resultSection.style.display = 'none'; // Hide results if username is selected
+    return; 
+  }
+  try {
+    // Send a request to the backend to fetch works on details 
+    const response = await fetch(`/user/details?Username=${Username}`); 
+    const data = await response.json();
+    resultTableBody.innerHTML = ''; // Clear previous results 
+    resultSection.style.display = 'block';
+    if (data.length > 0) {
+        const { Username,Title} = data[0]; 
+        resultTableBody.innerHTML = `
+            <tr>
+              <td>${Username}</td>
+              <td>${Title}</td>
+              
+            </tr>
+        `;
+    } else {
+        resultTableBody.innerHTML = `<tr><td colspan="2">No data found.</td></tr>`; 
+    }
+  } catch (error) {
+      console.error('Error fetching username details:', error); 
+    }
     });
-
+ });
   </script>
 </body>
 </html>

@@ -415,6 +415,7 @@ SELECT u.Username, m.Title
 FROM USERS u
 JOIN FAVORITE_MOVIES fm ON u.Username = fm.Username
 JOIN MOVIES m ON fm.Movie_ID = m.Movie_ID;
+WHERE u.Username =  ?;
 
 -- SQL Query 2: Use nested queries with IN, ANY, or ALL and include a GROUP BY clause
 -- Purpose: List all genres that appear in movies which are rated above the average minimum age rating
@@ -473,10 +474,11 @@ SELECT DISTINCT Genre
 FROM MOVIES;
 
 -- SQL Query 6: Custom non-trivial query (JOIN)
--- Purpose: List all movies along with rating descriptions.
+-- Purpose: List selected movie along with rating descriptions.
 SELECT m.Title, m.Rating, r.Description
 FROM MOVIES m
 JOIN RATINGS r ON m.Rating = r.Rating;
+WHEERE m.Title = ?;
 
 -- SQL Query 7: Your own non-trivial queries using at least two tables
 -- Purpose: Find all streaming services that host more than one movie.
@@ -487,7 +489,7 @@ JOIN
 GROUP BY 
     S.Company, S.Streaming
 HAVING 
-    COUNT(*) > 1;
+    COUNT(*) > ?;
 
 -- SQL Query 8: Your own non-trivial queries using at least two tables
 -- Purpose: Display all movies that belong to genre marked as “Acceptable” in the GENRES 
