@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +16,7 @@
       padding: 20px;
       position: relative;
       min-height: 100vh;
-    
+
       color: white;
     }
 
@@ -35,11 +36,12 @@
 
     .logo {
       height: 36px;
-      margin-right:40px;
+      margin-right: 40px;
     }
 
-    .navbar, .navbar * {
-      margin-left:0;
+    .navbar,
+    .navbar * {
+      margin-left: 0;
       border: none !important;
       box-shadow: none !important;
       outline: none !important;
@@ -55,7 +57,7 @@
       overflow: hidden;
       background-color: #222;
       border: 1px solid #444;
-      
+
     }
 
     .middle-section:has(.search-bar:focus) {
@@ -75,7 +77,7 @@
     .search-button {
       background-color: #333;
       border: none;
-      padding: 0 20px; 
+      padding: 0 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -93,14 +95,14 @@
       background-color: #666;
     }
 
-  
+
 
     .right-section {
       margin-right: 20px;
-     
+
     }
 
- 
+
 
     .background {
       position: absolute;
@@ -112,7 +114,7 @@
       object-fit: cover;
       z-index: -1;
       opacity: 0.25;
-      
+
     }
 
     .text {
@@ -129,7 +131,7 @@
     .discover-buttons {
       display: flex;
       justify-content: center;
-      gap: 16px; 
+      gap: 16px;
       margin-top: 20px;
       flex-wrap: wrap;
     }
@@ -144,13 +146,6 @@
       font-size: 0.95rem;
       opacity: 0.85;
     }
-
-
-
-
-
-
-    
   </style>
 </head>
 
@@ -158,39 +153,42 @@
   <header class="header">
     <div class="left-section">
       <img class="logo" src="pics/Movies.png" alt="Just Movies Logo" />
-    
+
 
       <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
- 
-      <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">Home
-         
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="query2.html">Movies</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Ratings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Rankings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="StreamServices.html">Streaming Services</a>
-        </li>
-        
-        </ul>
-      
-      </div>
-  
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home
+
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="movies.html">Movies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Ratings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Rankings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="user.html">User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="StreamServices.html">Streaming Services</a>
+            </li>
+
+          </ul>
+
+        </div>
+
       </nav>
     </div>
 
 
-     <div class="middle-section">
+    <div class="middle-section">
       <input class="search-bar" type="text" placeholder="Search" aria-label="Search for movies" />
       <button class="search-button" aria-label="Search Button">
         <img class="search-icon" src="pics/search-icon.png" alt="search icon" />
@@ -203,8 +201,8 @@
     </div>
   </header>
 
-   
- 
+
+
 
   <main>
     <img class="background" src="pics/background-movies.jpg" alt="Movie-themed background" />
@@ -213,7 +211,7 @@
 
     <div class="text">
       <h1>Welcome to Just Movies</h1>
-     
+
       <p>Your all-in-one guide to what to watch and where to watch it.</p>
       <p>Stop switching apps. Start streaming smarter.</p>
 
@@ -225,17 +223,16 @@
     </div>
 
 
-      <div class="group-name">
-        <p>This website is made by</p>
-        <p>Cathy Che, Grace Park, Tiffany Morales and Zachary Anderson</p>
-      </div>
+    <div class="group-name">
+      <p>This website is made by</p>
+      <p>Cathy Che, Grace Park, Tiffany Morales and Zachary Anderson</p>
+    </div>
 
-    
+
 
   </main>
 
- 
+
 </body>
+
 </html>
-
-
