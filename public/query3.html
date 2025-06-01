@@ -167,17 +167,18 @@
           
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="movies.html">Movies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="genre.html">Genre</a>
+            <a class="nav-link" href="query1.html">User</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="query2.html">Movies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="query3.html">Genre</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="ranking.html">Ranking</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="user.html">User</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="StreamServices.html">Streaming Services</a>
@@ -279,8 +280,8 @@
       <div class="card-body">
         
         <form id="genreForm">
-         <label for="NumOfRanking" class="form-label mt-4">Enter a ranking (1–5) to see how many movies in each genre that higher that rank .</label>
-         <input type="Text" pattern="\d+" class="form-control w-100" id="NumOfRanking" placeholder="Please enter a number between 1-5" autocomplete="off">
+         <label for="genreAge" class="form-label mt-4">Enter a ranking (1–5) to see how many movies in each genre that higher that rank .</label>
+         <input type="Text" pattern="\d+" class="form-control w-100" id="genreAge" placeholder="Please enter a number between 1-5" autocomplete="off">
          <button type="submit" class="btn btn-secondary custom-search-button  w-100">Search</button>
 
         </form>
@@ -294,9 +295,9 @@
         <table class="table table-hover" id="resultsTable">
           <thead>
             <tr>
-              <th>Genre</th>
-              <th>Movie_Count</th>
-            
+              <th>MovieTitle</th>
+              <th>MovieGenre</th>
+              <th>MinimumAge</th>
             </tr>
           </thead>
           <tbody>
@@ -312,30 +313,32 @@
   <script>
     document.getElementById('genreForm').addEventListener('submit', async function (event) {
       event.preventDefault();
-      const NumOfRanking = document.getElementById('NumOfRanking').value;
-      const response = await fetch(`/genre?NumOfRanking=${encodeURIComponent(NumOfRanking)}`);
+      const Minimum_Age = document.getElementById('genreAge').value;
+      const response = await fetch(`/genreAge?genreAge=${encodeURIComponent(Minimum_Age)}`);
       const resultSection = document.getElementById('resultSection');
       const resultsBody = document.getElementById('resultsBody');
       if (!response.ok) {
         resultSection.style.display = 'block';
-        resultsBody.innerHTML = `<tr><td colspan="2">No movies found with more than ${NumOfRanking}</td></tr>`;
+        resultsBody.innerHTML = `<tr><td colspan="2">No movies found with more than ${Minimum_Age}</td></tr>`;
         return;
       }
-      const data = await response.json();
-      resultSection.style.display = 'block';
-      resultsBody.innerHTML = '';
-      data.forEach(row => {
-        resultsBody.innerHTML += `
-          <tr>
-            <td>${row.Genre}</td>
-            <td>${row.Movie_Count}</td>
-        
 
-          </tr>
-        `;
-      });
+      if (response.ok){
+        const data = await response.json();
+        resultSection.style.display = 'block';
+        resultsBody.innerHTML = '';
+        data.forEach(({ MovieTitle, MovieGenre, MinimumAge }) => {
+          resultsBody.innerHTML += `
+            <tr>
+              <td>${MovieTitle}</td>
+              <td>${MovieGenre}</td>
+              <td>${MinimumAge}</td>
+            </tr>
+          `;
+        });
+      }
     });
-
+    
   </script>
 </body>
 </html>

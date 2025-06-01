@@ -4,8 +4,9 @@ const app = express();
 const db = require('./dbConfig');
 
 // Step 2: Import Controllers
-const moviesController = require('./controllers/movies');
-const query1 = require('./controllers/query1');
+const userController = require('./controllers/query1');
+const moviesController = require('./controllers/query2');
+const genreController = require('./controllers/query3')
 //const query6 = require('./controllers/query6');
 // const streamServicesController = require('./controllers/StreamServices');
 // const userController = require('./controllers/user');
@@ -16,13 +17,17 @@ app.use(express.static('public'));
 
 // Step 4: Define Routes
 
-// Movies routes
+// Query 1 routes (User favorite movies)
+app.get('/user', userController.getAllUsers);
+app.get('/user/details', userController.getFavoriteMovieByUser);
+
+// Query 2
 app.get('/movies', moviesController.getAllMovies);
 app.get('/movies/details', moviesController.getMovieDetails);
 
-// Query 1 routes (User favorite movies)
-app.get('/user', query1.getAllUsers);
-app.get('/user/details', query1.getFavoriteMovieByUser);
+// Query 3
+// app.get('/genres', genreController.getAllGenres);
+app.get('/genreAge', genreController.getGenreDetails);
 
 // Query 6
 //app.get('/api/query6', query6.getAllMoviesWithRatings);
