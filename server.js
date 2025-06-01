@@ -6,7 +6,7 @@ const db = require('./dbConfig');
 // Step 2: Import Controllers
 const moviesController = require('./controllers/movies');
 const query1 = require('./controllers/query1');
-const query6 = require('./controllers/query6');
+//const query6 = require('./controllers/query6');
 // const streamServicesController = require('./controllers/StreamServices');
 // const userController = require('./controllers/user');
 
@@ -25,7 +25,7 @@ app.get('/user', query1.getAllUsers);
 app.get('/user/details', query1.getFavoriteMovieByUser);
 
 // Query 6
-app.get('/api/query6', query6.getAllMoviesWithRatings);
+//app.get('/api/query6', query6.getAllMoviesWithRatings);
 
 // // Stream services routes
 // app.get('/project/duration', projectController.getAllProjectsTotalHours);
@@ -34,7 +34,7 @@ app.get('/api/query6', query6.getAllMoviesWithRatings);
 // app.get('/project/hours', worksonController.getHoursWorkedByEmployee);
 
 // Step 5: Start the Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
