@@ -1,49 +1,52 @@
--- Start of Sample SQL Script
-/*********************************
-Project Phase II
-Group 14: Grace Park, Cathy Che, Tiffany Morales, and Zachary Anderson
-This SQL Script was tested on
-Oracle LiveSQL. To run, simply
-load this script file and run.
-********************************
-*/
+-- Create the database
+-- CREATE DATABASE IF NOT EXISTS movies_db;
+-- USE movies_db;
 
-REM   Script: GroupProject
-REM   Movies -group project
+
+-- Start of Sample SQL Script
+-- *********************************
+-- Project Phase II
+-- Group 14: Grace Park, Cathy Che, Tiffany Morales, and Zachary Anderson
+-- This SQL Script was tested on
+-- Oracle LiveSQL. To run, simply
+-- load this script file and run.
+-- ********************************
+
+
+-- Script: GroupProject
+-- Movies -group project
 
 -- Part A: Schema Definition
 -- ***************************
 
 CREATE TABLE GENRES(
-    Genre VARCHAR(100),
+    Genre VARCHAR(100) NOT NULL,
     Description VARCHAR(256),
     Acceptable VARCHAR(100) DEFAULT 'Yes' CHECK (Acceptable IN ('Yes', 'No')),
     PRIMARY KEY(Genre)
 );
-
+CREATE TABLE RATINGS(
+    Rating VARCHAR(100) NOT NULL,
+    Minimum_Age INTEGER CHECK (Minimum_Age >= 0),
+    Description VARCHAR(100),
+    Acceptable VARCHAR(100) DEFAULT 'Yes' CHECK (Acceptable IN ('Yes', 'No')),
+    PRIMARY KEY(Rating)
+);
 CREATE TABLE STREAMING_SERVICE(
     Company VARCHAR(100) NOT NULL,
     Streaming VARCHAR(100) NOT NULL,
     PRIMARY KEY(Streaming)
 );
 
-CREATE TABLE RATINGS(
-    Rating VARCHAR(100),
-    Minimum_Age INTEGER CHECK (Minimum_Age >= 0),
-    Description VARCHAR(100),
-    Acceptable VARCHAR(100) DEFAULT 'Yes' CHECK (Acceptable IN ('Yes', 'No')),
-    PRIMARY KEY(Rating)
-);
-
 CREATE TABLE MOVIES (
     Movie_ID INTEGER NOT NULL,
     Title VARCHAR(100) NOT NULL,
-    Year NUMERIC(4,0) NOT NULL CHECK (Year >= 1900),
+    Year INT NOT NULL CHECK (Year >= 1900),
     Minutes INTEGER NOT NULL CHECK (Minutes > 0),
-    Genre VARCHAR(100),
+    Genre VARCHAR(100) DEFAULT NULL,
     Number_Series INTEGER,
-    Rating VARCHAR(100),
-    Streaming VARCHAR(100) NOT NULL,
+    Rating VARCHAR(100) DEFAULT NULL,
+    Streaming VARCHAR(100) DEFAULT NULL,
     PRIMARY KEY(Movie_ID),
     FOREIGN KEY (Genre) REFERENCES GENRES(Genre)
         ON DELETE SET NULL,
@@ -76,7 +79,7 @@ CREATE TABLE FAVORITE_GENRES(
     Query_ID INTEGER NOT NULL,
     PRIMARY KEY(Genre,Username),
     FOREIGN KEY (Genre) REFERENCES GENRES(Genre)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
     FOREIGN KEY (Username) REFERENCES USERS(Username)
         ON DELETE CASCADE
 );
@@ -86,7 +89,7 @@ CREATE TABLE FAVORITE_MOVIES(
     Query_ID INTEGER NOT NULL,
     PRIMARY KEY(Movie_ID,Username),
     FOREIGN KEY (Movie_ID) REFERENCES MOVIES(Movie_ID)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
     FOREIGN KEY (Username) REFERENCES USERS(Username)
         ON DELETE CASCADE
 );
@@ -97,7 +100,7 @@ CREATE TABLE RANKINGS(
     Rank INTEGER DEFAULT 5 CHECK (Rank BETWEEN 1 AND 5),
     PRIMARY KEY(Movie_ID,Username),
     FOREIGN KEY (Movie_ID) REFERENCES MOVIES(Movie_ID)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
     FOREIGN KEY (Username) REFERENCES USERS(Username)
         ON DELETE CASCADE
     
@@ -406,111 +409,3 @@ INSERT INTO RANKINGS VALUES (22, 'silentFilmsfan', 5);
 
 INSERT INTO RANKINGS VALUES (23, 'laughHappy23', 5);
 INSERT INTO RANKINGS VALUES (24, 'laughHappy23', 4);
-
--- Part C
--- **************************
--- SQL Query 1: Join at least three tables using JOIN ON
--- Purpose: Find each user’s favorite movie
-SELECT u.Username, m.Title
-FROM USERS u
-JOIN FAVORITE_MOVIES fm ON u.Username = fm.Username
-JOIN MOVIES m ON fm.Movie_ID = m.Movie_ID;
-WHERE u.Username =  ?;
-
--- SQL Query 2: Use nested queries with IN, ANY, or ALL and include a GROUP BY clause
--- Purpose: List each genre and count how many movies in that genre have at least one ranking higher than the value the user inputs.
-SELECT m.Genre, COUNT(*) AS Movie_Count
-FROM MOVIES m
-JOIN RANKINGS rnk ON m.Movie_ID = rnk.Movie_ID
-WHERE rnk.Rank > ANY (
-    SELECT Rank FROM RANKINGS WHERE Rank > ?
-)
-GROUP BY m.Genre;
-
-
--- SQL Query 3: A correlated subquery with aliasing
--- Purpose: For each movie, show its title and whether its length is above the average for its genre.
-SELECT
-    M1.Title,
-    M1.Minutes,
-    (SELECT AVG(M2.Minutes) FROM MOVIES M2 WHERE M2.Genre = M1.Genre) AS GenreAvg,
-    CASE
-        WHEN M1.Minutes > (SELECT AVG(M2.Minutes) FROM MOVIES M2 WHERE M2.Genre = M1.Genre) 
-        THEN 'Above Avg'
-        ELSE 'Below Avg'
-    END AS Comparison
-FROM MOVIES M1;
-
--- SQL Query 4: Use a FULL OUTER JOIN
--- Purpose: When the user selects a rating, list all movies with that rating (if any), and always include the rating value and description even if no movie uses it.
-SELECT m.Title, r.Rating, r.Description
-FROM MOVIES m
-LEFT JOIN RATINGS r ON m.Rating = r.Rating
-WHERE r.Rating = ?
-
-UNION
-
-SELECT NULL AS Title, r.Rating, r.Description
-FROM RATINGS r
-WHERE r.Rating = ? AND r.Rating NOT IN (
-    SELECT Rating FROM MOVIES WHERE Rating IS NOT NULL
-);
-
-
--- SQL Query 5: Use a set operation: UNION, EXCEPT, or INTERSECT
--- Purpose: List genres that are in GENRES but not in MOVIES
-SELECT Genre
-FROM GENRES
-MINUS
-SELECT DISTINCT Genre
-FROM MOVIES;
-
--- SQL Query 6: Custom non-trivial query (JOIN)
--- Purpose: List selected movie along with rating descriptions.
-SELECT m.Title, m.Rating, r.Description
-FROM MOVIES m
-JOIN RATINGS r ON m.Rating = r.Rating;
-WHEERE m.Title = ?;
-
--- SQL Query 7: Your own non-trivial queries using at least two tables
--- Purpose: Find all streaming services that host more than one movie.
-SELECT S.Company, S.Streaming, COUNT(*) AS Num_Movies
-FROM MOVIES M
-JOIN 
-    STREAMING_SERVICE S ON M.Streaming = S.Streaming
-GROUP BY 
-    S.Company, S.Streaming
-HAVING 
-    COUNT(*) > ?;
-
--- SQL Query 8: Your own non-trivial queries using at least two tables
--- Purpose: Display all movies that belong to genre marked as “Acceptable” in the GENRES 
-SELECT m.Title, m.Genre, r.Minimum_Age
-FROM MOVIES m
-JOIN GENRES g ON m.Genre = g.Genre
-JOIN RATINGS r ON m.Rating = r.Rating
-WHERE g.Acceptable = 'Yes' AND r.Minimum_Age >= 13;
-
--- SQL Query 9: A non-trivial query using at least three tables 
--- Purpose: Display movie titles, their descriptions, genre descriptions, and user rankings 
-SELECT 
-    m.Title, 
-    m.Description AS Movie_Desc, 
-    g.Description AS Genre_Desc, 
-    rnk.Rank
-FROM MOVIES m
-JOIN GENRES g ON m.Genre = g.Genre
-JOIN RANKINGS rnk ON m.Movie_ID = rnk.Movie_ID
-WHERE rnk.Rank = ?;
-
--- SQL Query 10: A non-trivial query using at least three tables with aliasing/renaming
--- Purpose: List movies that are part of series, include the series name , the age rating description, and whether their genre is acceptable.
-SELECT 
-    m.Title AS Movie_Title,
-    s.Movie_Series AS Series_Name,
-    r.Description AS Age_Rating_Desc,
-    g.Acceptable AS Genre_Acceptable
-FROM MOVIES m
-JOIN SERIES s ON m.Movie_ID = s.Movie_ID
-JOIN RATINGS r ON m.Rating = r.Rating
-JOIN GENRES g ON m.Genre = g.Genre;
