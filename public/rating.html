@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User</title>
+  <title>Rating</title>
 
   <!-- Bootswatch Cyborg Theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cyborg/bootstrap.min.css" />
@@ -162,15 +162,13 @@
       <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Home
-          
-            </a>
+            <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="movies.html">Movies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="rating.html">Rating</a>
+            <a class="nav-link" href="genre.html">Genre</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="ranking.html">Ranking</a>
@@ -277,12 +275,15 @@
 
     <!-- Search Form -->
 
+    <!---- SQL Query 4: Use a FULL OUTER JOIN-->
+    <!---- Purpose: When the user selects a rating, list all movies with that rating (if any), and always include the rating value and description even if no movie uses it.-->
+    
   <div class="container">
-    <!--query 6: Custom non-trivial query (JOIN)-->
-    <!--Purpose: List selected movie along with rating descriptions.-->
-      <label for="movieDropdown" class="form-label mt-4">Select a movie:</label>
-      <select class="form-select" id="movieDropdown">
-        <option>select a movie</option>
+     
+      <label for="ratingDropdown" class="form-label mt-4">Select a rating:</label>
+
+      <select class="form-select" id="userDropdown">
+        <option>select a rating</option>
         
       
       </select>
@@ -296,7 +297,7 @@
         <table class="table table-hover" id="resultsTable">
           <thead>
             <tr>
-              <th>Movie</th>
+              <th>Title</th>
               <th>Rating</th>
               <th>Description</th>
             </tr>
@@ -313,40 +314,40 @@
   <!--JavaScript for handing form submission and displaying results-->
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-  const dropdown = document.getElementById('movieDropdown');
+  const dropdown = document.getElementById('ratingDropdown');
   const resultSection = document.getElementById('resultSection'); 
   const resultTableBody = document.getElementById('resultTableBody');
   try {
-  // Fetch movie list for the dropdown menu
-      const response = await fetch('/movies'); // Backend endpoint 
+  // Fetch user list for the dropdown menu
+      const response = await fetch('/rating'); // Backend endpoint 
       const users = await response.json(); 
       users.forEach(user => {
         const option = document.createElement('option');
-        option.value = movie.Title; // Set the movie title as the value
-        option.textContent = `${movie.Title}`; // Display movie title
+        option.value = rating.Rating; // Set the rating as the value
+        option.textContent = `${rating.Rating}`; // Display rating
         dropdown.appendChild(option);
       });
     } catch (error) {
-        console.error('Error fetching moive', error); 
+        console.error('Error fetching rating:', error); 
     }
-// Automatically fetch and display movie  details when movie title is selected
+// Automatically fetch and display rating details when rating  is selected
 dropdown.addEventListener('change', async (event) => { 
-  const Title = event.target.value;
-  if (!Title) {
-    resultSection.style.display = 'none'; // Hide results if movie title is selected
+  const Rating = event.target.value;
+  if (!Rating) {
+    resultSection.style.display = 'none'; // Hide results if rating is selected
     return; 
   }
   try {
-    // Send a request to the backend to fetch movie details 
-    const response = await fetch(`/moives/details?Title=${Title}`); 
+    // Send a request to the backend to fetch works on details 
+    const response = await fetch(`/rating/details?Rating=${Rating}`); 
     const data = await response.json();
     resultTableBody.innerHTML = ''; // Clear previous results 
     resultSection.style.display = 'block';
     if (data.length > 0) {
-        const { Movie,Rating,Description} = data[0]; 
+        const {Title,Rating,Description} = data[0]; 
         resultTableBody.innerHTML = `
             <tr>
-              <td>${Movie}</td>
+              <td>${Title}</td>
               <td>${Rating}</td>
               <td>${Description}</td>
               
@@ -356,7 +357,7 @@ dropdown.addEventListener('change', async (event) => {
         resultTableBody.innerHTML = `<tr><td colspan="3">No data found.</td></tr>`; 
     }
   } catch (error) {
-      console.error('Error fetching movie details:', error); 
+      console.error('Error fetching rating details:', error); 
     }
     });
  });

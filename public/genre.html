@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User</title>
+  <title>Genre</title>
 
   <!-- Bootswatch Cyborg Theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cyborg/bootstrap.min.css" />
@@ -121,6 +121,7 @@
       margin-top: 10px;
       font-size: 1rem;
       border-radius: 8px;
+     
     }
 
 
@@ -170,13 +171,10 @@
             <a class="nav-link" href="movies.html">Movies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="rating.html">Rating</a>
+            <a class="nav-link" href="genre.html">Genre</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="ranking.html">Ranking</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="rating.html">Rating</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="user.html">User</a>
@@ -274,36 +272,36 @@
 
 
   </nav>
-
+    <!--SQL Query 2: Use nested queries with IN, ANY, or ALL and include a GROUP BY claus -->
+    <!--Purpose: List each genre and count how many movies in that genre have a rank higher than a rank that user put. -->
     <!-- Search Form -->
-
-  <div class="container">
-    <!--query 6: Custom non-trivial query (JOIN)-->
-    <!--Purpose: List selected movie along with rating descriptions.-->
-      <label for="movieDropdown" class="form-label mt-4">Select a movie:</label>
-      <select class="form-select" id="movieDropdown">
-        <option>select a movie</option>
+    <div class="card mb-3">
+      <div class="card-body">
         
-      
-      </select>
-  </div>
+        <form id="genreForm">
+         <label for="NumOfRanking" class="form-label mt-4">Enter a ranking (1–5) to see how many movies in each genre that higher that rank .</label>
+         <input type="Text" pattern="\d+" class="form-control w-100" id="NumOfRanking" placeholder="Please enter a number between 1-5" autocomplete="off">
+         <button type="submit" class="btn btn-secondary custom-search-button  w-100">Search</button>
 
+        </form>
+      </div>
+    </div>
 
     <!-- Table for displaying results -->
     <div class="card mb-3"  id="resultSection" style="display: none;">
       <div class="card-body">
-       
+        <h5>Genre details</h5>
         <table class="table table-hover" id="resultsTable">
           <thead>
             <tr>
-              <th>Movie</th>
-              <th>Rating</th>
-              <th>Description</th>
+              <th>Genre</th>
+              <th>Movie_Count</th>
+            
             </tr>
           </thead>
-          <tbody id = "resultsBody">
+          <tbody>
             <!-- Results will be here-->
-          </tbody>
+          </tbody id = "resultsBody">
         </table>
       </div>
     </div>
@@ -312,55 +310,32 @@
 
   <!--JavaScript for handing form submission and displaying results-->
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-  const dropdown = document.getElementById('movieDropdown');
-  const resultSection = document.getElementById('resultSection'); 
-  const resultTableBody = document.getElementById('resultTableBody');
-  try {
-  // Fetch movie list for the dropdown menu
-      const response = await fetch('/movies'); // Backend endpoint 
-      const users = await response.json(); 
-      users.forEach(user => {
-        const option = document.createElement('option');
-        option.value = movie.Title; // Set the movie title as the value
-        option.textContent = `${movie.Title}`; // Display movie title
-        dropdown.appendChild(option);
-      });
-    } catch (error) {
-        console.error('Error fetching moive', error); 
-    }
-// Automatically fetch and display movie  details when movie title is selected
-dropdown.addEventListener('change', async (event) => { 
-  const Title = event.target.value;
-  if (!Title) {
-    resultSection.style.display = 'none'; // Hide results if movie title is selected
-    return; 
-  }
-  try {
-    // Send a request to the backend to fetch movie details 
-    const response = await fetch(`/moives/details?Title=${Title}`); 
-    const data = await response.json();
-    resultTableBody.innerHTML = ''; // Clear previous results 
-    resultSection.style.display = 'block';
-    if (data.length > 0) {
-        const { Movie,Rating,Description} = data[0]; 
-        resultTableBody.innerHTML = `
-            <tr>
-              <td>${Movie}</td>
-              <td>${Rating}</td>
-              <td>${Description}</td>
-              
-            </tr>
+    document.getElementById('genreForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const NumOfRanking = document.getElementById('NumOfRanking').value;
+      const response = await fetch(`/genre?NumOfRanking=${encodeURIComponent(NumOfRanking)}`);
+      const resultSection = document.getElementById('resultSection');
+      const resultsBody = document.getElementById('resultsBody');
+      if (!response.ok) {
+        resultSection.style.display = 'block';
+        resultsBody.innerHTML = `<tr><td colspan="2">No movies found with more than ${NumOfRanking}</td></tr>`;
+        return;
+      }
+      const data = await response.json();
+      resultSection.style.display = 'block';
+      resultsBody.innerHTML = '';
+      data.forEach(row => {
+        resultsBody.innerHTML += `
+          <tr>
+            <td>${row.Genre}</td>
+            <td>${row.Movie_Count}</td>
+        
+
+          </tr>
         `;
-    } else {
-        resultTableBody.innerHTML = `<tr><td colspan="3">No data found.</td></tr>`; 
-    }
-  } catch (error) {
-      console.error('Error fetching movie details:', error); 
-    }
+      });
     });
- });
+
   </script>
 </body>
 </html>
-

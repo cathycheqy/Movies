@@ -418,17 +418,15 @@ JOIN MOVIES m ON fm.Movie_ID = m.Movie_ID;
 WHERE u.Username =  ?;
 
 -- SQL Query 2: Use nested queries with IN, ANY, or ALL and include a GROUP BY clause
--- Purpose: List all genres that appear in movies which are rated above the average minimum age rating
+-- Purpose: List each genre and count how many movies in that genre have at least one ranking higher than the value the user inputs.
 SELECT m.Genre, COUNT(*) AS Movie_Count
 FROM MOVIES m
-WHERE m.Rating IN (
-    SELECT Rating
-    FROM RATINGS
-    WHERE Minimum_Age > (
-        SELECT AVG(Minimum_Age) FROM RATINGS
-    )
+JOIN RANKINGS rnk ON m.Movie_ID = rnk.Movie_ID
+WHERE rnk.Rank > ANY (
+    SELECT Rank FROM RANKINGS WHERE Rank > ?
 )
 GROUP BY m.Genre;
+
 
 -- SQL Query 3: A correlated subquery with aliasing
 -- Purpose: For each movie, show its title and whether its length is above the average for its genre.
@@ -444,26 +442,20 @@ SELECT
 FROM MOVIES M1;
 
 -- SQL Query 4: Use a FULL OUTER JOIN
--- Purpose: List all users and all movies, showing favorite status if present.
-SELECT
-    U.Username,
-    M.Title,
-    FM.Movie_ID AS Favorite_Movie_ID
-FROM USERS U
-LEFT OUTER JOIN FAVORITE_MOVIES FM ON U.Username = FM.Username
-LEFT OUTER JOIN MOVIES M ON FM.Movie_ID = M.Movie_ID
+-- Purpose: When the user selects a rating, list all movies with that rating (if any), and always include the rating value and description even if no movie uses it.
+SELECT m.Title, r.Rating, r.Description
+FROM MOVIES m
+LEFT JOIN RATINGS r ON m.Rating = r.Rating
+WHERE r.Rating = ?
 
 UNION
 
-SELECT
-    U.Username,
-    M.Title,
-    FM.Movie_ID AS Favorite_Movie_ID
-FROM USERS U
-RIGHT OUTER JOIN FAVORITE_MOVIES FM ON U.Username = FM.Username
-RIGHT OUTER JOIN MOVIES M ON FM.Movie_ID = M.Movie_ID
+SELECT NULL AS Title, r.Rating, r.Description
+FROM RATINGS r
+WHERE r.Rating = ? AND r.Rating NOT IN (
+    SELECT Rating FROM MOVIES WHERE Rating IS NOT NULL
+);
 
-ORDER BY Username, Title;
 
 -- SQL Query 5: Use a set operation: UNION, EXCEPT, or INTERSECT
 -- Purpose: List genres that are in GENRES but not in MOVIES
@@ -500,11 +492,16 @@ JOIN RATINGS r ON m.Rating = r.Rating
 WHERE g.Acceptable = 'Yes' AND r.Minimum_Age >= 13;
 
 -- SQL Query 9: A non-trivial query using at least three tables 
--- Purpose: List all movies with genre descriptions and rating descriptions 
-SELECT m.Title, g.Description AS Genre_Desc, r.Description AS Rating_Desc
+-- Purpose: Display movie titles, their descriptions, genre descriptions, and user rankings 
+SELECT 
+    m.Title, 
+    m.Description AS Movie_Desc, 
+    g.Description AS Genre_Desc, 
+    rnk.Rank
 FROM MOVIES m
 JOIN GENRES g ON m.Genre = g.Genre
-JOIN RATINGS r ON m.Rating = r.Rating;
+JOIN RANKINGS rnk ON m.Movie_ID = rnk.Movie_ID
+WHERE rnk.Rank = ?;
 
 -- SQL Query 10: A non-trivial query using at least three tables with aliasing/renaming
 -- Purpose: List movies that are part of series, include the series name , the age rating description, and whether their genre is acceptable.
