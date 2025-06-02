@@ -6,8 +6,9 @@ const db = require('./dbConfig');
 // Step 2: Import Controllers
 const userController = require('./controllers/query1');
 const moviesController = require('./controllers/query2');
-const genreController = require('./controllers/query3')
-const streamingServiceController = require('./controllers/query4')
+const genreController = require('./controllers/query3');
+const streamingServiceController = require('./controllers/query4');
+const rankController = require('./controllers/query5');
 
 // Step 3: Middleware Setup
 app.use(express.json());
@@ -29,6 +30,9 @@ app.get('/genreDetails', genreController.getGenreDetails);
 // Query 4
 app.get('/streamingServices', streamingServiceController.getAllStreamingServices);
 app.get('/streamingServices/details', streamingServiceController.getStreamingServiceDetails);
+
+// Query 5
+app.get('/rankDetails', rankController.getRankDetails);
 
 // Step 5: Start the Server
 const PORT = process.env.PORT || 5002;
