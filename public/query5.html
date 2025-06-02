@@ -276,9 +276,9 @@
     <div class="card mb-3">
       <div class="card-body">
         
-        <form id="rankingForm">
-         <label for="NumOfRanking" class="form-label mt-4">Enter a ranking (1–5) to see which movies users rated with that score, along with their descriptions and genres.</label>
-         <input type="Text" pattern="\d+" class="form-control w-100" id="NumOfRanking" placeholder="Please enter a number between 1-5" autocomplete="off">
+        <form id="rankForm">
+         <label for="rankDetails" class="form-label mt-4">Enter a ranking (1–5) to view which movies users ranked with that score.</label>
+         <input type="Text" pattern="\d+" class="form-control w-100" id="rankDetails" placeholder="Please enter a number between 1-5" autocomplete="off">
          <button type="submit" class="btn btn-secondary custom-search-button  w-100">Search</button>
 
         </form>
@@ -288,19 +288,18 @@
     <!-- Table for displaying results -->
     <div class="card mb-3"  id="resultSection" style="display: none;">
       <div class="card-body">
-        <h5>Movies</h5>
+        <h5>Rank Details</h5>
         <table class="table table-hover" id="resultsTable">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Movie_Desc</th>
-              <th>Genre_Desc</th>
-              <th>Rank</th>
+              <th>Movie Title</th>
+              <th>Genre Description</th>
+              <th>Rating Description</th>
+              <th>Movie Rank</th>
+              <th>Username</th>
             </tr>
           </thead>
-          <tbody>
-            <!-- Results will be here-->
-          </tbody id = "resultsBody">
+          <tbody id="tableBody"></tbody>
         </table>
       </div>
     </div>
@@ -309,31 +308,34 @@
 
   <!--JavaScript for handing form submission and displaying results-->
   <script>
-    document.getElementById('rankingForm').addEventListener('submit', async function (event) {
-      event.preventDefault();
-      const NumOfRanking = document.getElementById('NumOfRanking').value;
-      const response = await fetch(`/ranking?NumOfRanking=${encodeURIComponent(NumOfRanking)}`);
-      const resultSection = document.getElementById('resultSection');
-      const resultsBody = document.getElementById('resultsBody');
-      if (!response.ok) {
-        resultSection.style.display = 'block';
-        resultsBody.innerHTML = `<tr><td colspan="4">No ranking found with more than ${NumOfRanking} movies.</td></tr>`;
-        return;
-      }
-      const data = await response.json();
-      resultSection.style.display = 'block';
-      resultsBody.innerHTML = '';
-      data.forEach(row => {
-        resultsBody.innerHTML += `
-          <tr>
-            <td>${row.Title}</td>
-            <td>${row.Movie_Desc}</td>
-            <td>${row.Genre_Desc}</td>
-            <td>${row.Rank}</td>
 
-          </tr>
-        `;
-      });
+    document.getElementById('rankForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const rankDetails = document.getElementById('rankDetails').value;
+      const response = await fetch(`/rankDetails?rankDetails=${encodeURIComponent(rankDetails)}`);
+      const tableBody = document.getElementById('tableBody');
+      tableBody.innerHTML = ''; // Clear previous results
+      const resultSection = document.getElementById('resultSection');
+
+      if (response.ok) {
+        const data = await response.json();
+        data.forEach(({ MovieTitle, GenreDescription, RatingDescription, MovieRank, Username }) => {
+          tableBody.innerHTML += `
+            <tr>
+              <td>${MovieTitle}</td>
+              <td>${GenreDescription}</td>
+              <td>${RatingDescription}</td>
+              <td>${MovieRank}</td>
+              <td>${Username}</td>
+            </tr>
+          `;
+        });
+        resultSection.style.display = 'block';
+      } else {
+        resultSection.style.display = 'block';
+        resultSection.innerHTML = `<p class="text-danger">No movie with rank of ` + rankDetails + ` .</p>`;
+      }
     });
 
   </script>
