@@ -1,12 +1,21 @@
 const db = require('../dbConfig');
-exports.getAllUsers = (req, res) => {
-  db.query('SELECT Username FROM USERS', (err, results) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
-    res.json(results);
-  });
+
+// Get list of users for drowndown
+const getAllUsers = (req, res) => {
+    const sql = 'SELECT Username FROM USERS';
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+        res.json(result);
+    });
 };
-exports.getFavoriteMovieByUser = (req, res) => {
-  const { Username } = req.query;
+
+// Get details for user
+const getUserDetails = (req, res) => {
+    const { Username } = req.query;
   const sql = `
     SELECT u.Username, m.Title
     FROM USERS u
@@ -14,8 +23,12 @@ exports.getFavoriteMovieByUser = (req, res) => {
     JOIN MOVIES m ON fm.Movie_ID = m.Movie_ID
     WHERE u.Username = ?
   `;
-  db.query(sql, [Username], (err, results) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
-    res.json(results);
-  });
+    db.query(sql, [Username], (err, result) => {
+        if (err) {
+            console.error('Error fetching user details:', err);
+            return;
+        }
+        res.json(result);
+    });
 };
+module.exports = { getAllUsers, getUserDetails };
