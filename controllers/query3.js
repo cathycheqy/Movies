@@ -1,26 +1,30 @@
 const db = require('../dbConfig');
 
-//get details for genre using Query 8 from moviesdbQUERIES
+// Get details for genres
 const getGenreDetails = (req, res) => {
-    const { Minimum_Age } = req.query;
-    const sql = `
-    SELECT
-        m.Title AS MovieTitle, 
-        m.Genre AS MovieGenre, 
-        r.Minimum_Age AS MinimumAge
-    FROM MOVIES m
-    JOIN GENRES g ON m.Genre = g.Genre
-    JOIN RATINGS r ON m.Rating = r.Rating
-    WHERE g.Acceptable = 'Yes' AND r.Minimum_Age >= ?;
+    const genreDetails = req.query.genreDetails; // Get age for query parameter
+    const query = `
+        SELECT
+            m.Title AS MovieTitle, 
+            m.Genre AS MovieGenre, 
+            r.Minimum_Age AS MinimumAge
+        FROM MOVIES m
+        JOIN GENRES g ON m.Genre = g.Genre
+        JOIN RATINGS r ON m.Rating = r.Rating
+        WHERE g.Acceptable = 'Yes' AND r.Minimum_Age >= ?
     `;
-    db.query(sql, [Minimum_Age], (err, result) => {
+
+    db.query(query, [genreDetails], (err, results) => {
         if (err) {
-            console.error('Error fetching genre details:', err);
-            return;
+            return res.status(500).json({ error: 'Error fetching genre details' });
         }
-        res.json(result);
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No genre details found' });
+        }
+        res.json(results);
     });
 };
+
 module.exports = {
-    getGenreDetails 
+    getGenreDetails,
 };

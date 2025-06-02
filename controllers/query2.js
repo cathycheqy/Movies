@@ -1,6 +1,6 @@
 const db = require('../dbConfig');
 
-//get list of movies for drowndown
+// Get list of movies for drowndown
 const getAllMovies = (req, res) => {
     const sql = 'SELECT Title FROM MOVIES';
     db.query(sql, (err, result) => {
@@ -13,7 +13,7 @@ const getAllMovies = (req, res) => {
     });
 };
 
-//get details for movie
+// Get details for movie
 const getMovieDetails = (req, res) => {
     const { Title } = req.query;
     const sql = `

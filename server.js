@@ -7,9 +7,7 @@ const db = require('./dbConfig');
 const userController = require('./controllers/query1');
 const moviesController = require('./controllers/query2');
 const genreController = require('./controllers/query3')
-//const query6 = require('./controllers/query6');
-// const streamServicesController = require('./controllers/StreamServices');
-// const userController = require('./controllers/user');
+const streamingServiceController = require('./controllers/query4')
 
 // Step 3: Middleware Setup
 app.use(express.json());
@@ -19,24 +17,18 @@ app.use(express.static('public'));
 
 // Query 1 routes (User favorite movies)
 app.get('/user', userController.getAllUsers);
-app.get('/user/details', userController.getFavoriteMovieByUser);
+app.get('/user/details', userController.getUserDetails);
 
 // Query 2
 app.get('/movies', moviesController.getAllMovies);
 app.get('/movies/details', moviesController.getMovieDetails);
 
 // Query 3
-// app.get('/genres', genreController.getAllGenres);
-app.get('/genreAge', genreController.getGenreDetails);
+app.get('/genreDetails', genreController.getGenreDetails);
 
-// Query 6
-//app.get('/api/query6', query6.getAllMoviesWithRatings);
-
-// // Stream services routes
-// app.get('/project/duration', projectController.getAllProjectsTotalHours);
-
-// // User routes
-// app.get('/project/hours', worksonController.getHoursWorkedByEmployee);
+// Query 4
+app.get('/streamingServices', streamingServiceController.getAllStreamingServices);
+app.get('/streamingServices/details', streamingServiceController.getStreamingServiceDetails);
 
 // Step 5: Start the Server
 const PORT = process.env.PORT || 5002;
