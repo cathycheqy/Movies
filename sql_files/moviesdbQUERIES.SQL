@@ -65,37 +65,56 @@ SELECT DISTINCT Genre
 FROM MOVIES;
 
 -- SQL Query 6: Custom non-trivial query (JOIN)
--- Purpose: List selected movie along with rating descriptions.
-SELECT m.Title, m.Rating, r.Description
+-- Purpose: List selected movie along with rating, genre, and streaming info.
+SELECT 
+    m.Title AS Movie, 
+    m.Rating, 
+    m.Genre, 
+    m.Streaming
 FROM MOVIES m
-JOIN RATINGS r ON m.Rating = r.Rating;
-WHEERE m.Title = ?;
+JOIN RATINGS r ON m.Rating = r.Rating 
+WHERE m.Title = ?;
+
 
 -- SQL Query 7: Your own non-trivial queries using at least two tables
--- Purpose: Find all streaming services that host more than one movie.
-SELECT S.Company, S.Streaming, COUNT(*) AS Num_Movies
-FROM MOVIES M
-JOIN 
-    STREAMING_SERVICE S ON M.Streaming = S.Streaming
-GROUP BY 
-    S.Company, S.Streaming
-HAVING 
-    COUNT(*) > ?;
+-- Purpose: Find all streaming services and show number of movies.
+    SELECT 
+        S.Company, 
+        S.Streaming, 
+        COALESCE(COUNT(M.Movie_ID), 0) AS NumberOfMovies
+      FROM STREAMING_SERVICE S
+      LEFT JOIN MOVIES M ON M.Streaming = S.Streaming
+      WHERE S.Streaming = ?
+      GROUP BY S.Company, S.Streaming;
+    
 
--- SQL Query 8: Your own non-trivial queries using at least two tables
--- Purpose: Display all movies that belong to genre marked as “Acceptable” in the GENRES 
-SELECT m.Title, m.Genre, r.Minimum_Age
+-- SQL Query 8: A non-trivial queries using at least two tables
+-- Purpose: Display all movies available to a user based on their age.
+SELECT
+    m.Title AS MovieTitle,
+    m.Genre AS MovieGenre,
+    r.Rating AS AgeRating,
+    r.Minimum_Age AS MinimumAge,
+    s.Streaming AS StreamingService
+FROM MOVIES m
+JOIN RATINGS r ON m.Rating = r.Rating
+JOIN STREAMING_SERVICE s ON m.Streaming = s.Streaming
+WHERE r.Minimum_Age <= ?;
+
+-- SQL Query 9: A non-trivial query using at least three tables 
+-- Purpose: List all movies with genre descriptions, rating descriptions, movie rank, and user that ranked movie
+SELECT 
+    m.Title AS MovieTitle, 
+    g.Description AS GenreDescription, 
+    r.Description AS RatingDescription, 
+    a.Rank AS MovieRank,
+    u.Username AS Username
 FROM MOVIES m
 JOIN GENRES g ON m.Genre = g.Genre
 JOIN RATINGS r ON m.Rating = r.Rating
-WHERE g.Acceptable = 'Yes' AND r.Minimum_Age >= 13;
-
--- SQL Query 9: A non-trivial query using at least three tables 
--- Purpose: List all movies with genre descriptions and rating descriptions 
-SELECT m.Title, g.Description AS Genre_Desc, r.Description AS Rating_Desc
-FROM MOVIES m
-JOIN GENRES g ON m.Genre = g.Genre
-JOIN RATINGS r ON m.Rating = r.Rating;
+JOIN RANKINGS a ON m.Movie_ID = a.Movie_ID
+JOIN USERS u ON a.Username = u.Username
+WHERE a.Rank = ?;
 
 -- SQL Query 10: A non-trivial query using at least three tables with aliasing/renaming
 -- Purpose: List movies that are part of series, include the series name , the age rating description, and whether their genre is acceptable.
