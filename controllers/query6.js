@@ -6,14 +6,14 @@ const registerUser = (req, res) => {
 
     // Validate input
     if (!username || !email || !password) {
-        return res.status(400).json({ message: 'Username, email, and password are required' });
+        return res.status(400).json({ success: false, message: 'Username, email, and password are required' });
     }
 
     // Start transaction
     db.beginTransaction((err) => {
         if (err) {
             console.error('Transaction start error:', err);
-            return res.status(500).json({ message: 'Database transaction error' });
+            return res.status(500).json({ success: false, message: 'Database transaction error' });
         }
 
         // First, check if username or email already exists
@@ -22,7 +22,7 @@ const registerUser = (req, res) => {
             if (error) {
                 return db.rollback(() => {
                     console.error('Check user error:', error);
-                    res.status(500).json({ message: 'Database error during user check' });
+                    res.status(500).json({ success: false, message: 'Database error during user check' });
                 });
             }
 
@@ -36,7 +36,7 @@ const registerUser = (req, res) => {
                     } else if (existingUser.Email === email) {
                         message = 'Email already exists';
                     }
-                    res.status(409).json({ message: message });
+                    res.status(409).json({ success: false, message: message });
                 });
             }
 
@@ -46,7 +46,7 @@ const registerUser = (req, res) => {
                 if (error) {
                     return db.rollback(() => {
                         console.error('Insert user error:', error);
-                        res.status(500).json({ message: 'Failed to create user account' });
+                        res.status(500).json({ success: false, message: 'Failed to create user account' });
                     });
                 }
 
@@ -55,14 +55,14 @@ const registerUser = (req, res) => {
                     if (commitErr) {
                         return db.rollback(() => {
                             console.error('Commit error:', commitErr);
-                            res.status(500).json({ message: 'Failed to complete registration' });
+                            res.status(500).json({ success: false, message: 'Failed to complete registration' });
                         });
                     }
 
                     // Success response
                     console.log('User registered successfully:', username);
                     res.status(201).json({
-                        message: 'User registered successfully',
+                        success: true, message: 'User registered successfully',
                         data: { username: username, email: email }
                     });
                 });
