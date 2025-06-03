@@ -29,6 +29,5 @@ const getRankDetails = (req, res) => {
     });
 };
 
-module.exports = {
-    getRankDetails,
-};
+// Export the function
+module.exports = { getRankDetails };

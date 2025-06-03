@@ -17,10 +17,13 @@ const getAllMovies = (req, res) => {
 const getMovieDetails = (req, res) => {
     const { Title } = req.query;
     const sql = `
-      SELECT m.Title AS Movie, m.Rating, m.Genre, m.Streaming
-FROM MOVIES m
-JOIN RATINGS r ON m.Rating = r.Rating 
-WHERE m.Title = ?;
+        SELECT 
+            m.Title AS Movie, 
+            m.Rating, m.Genre, 
+            m.Streaming
+        FROM MOVIES m
+        JOIN RATINGS r ON m.Rating = r.Rating 
+        WHERE m.Title = ?;
     `;
     db.query(sql, [Title], (err, result) => {
         if (err) {
@@ -31,4 +34,6 @@ WHERE m.Title = ?;
         res.json(result);
     });
 };
+
+// Export the functions
 module.exports = { getAllMovies, getMovieDetails };
