@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Genre</title>
+  <title>User Registration</title>
 
   <!-- Bootswatch Cyborg Theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cyborg/bootstrap.min.css" />
@@ -143,6 +143,11 @@
       margin: 0 auto;
          
     }
+    
+    .registerForm{
+      max-width:450px;
+      margin:0 auto;
+    }
 
    
 
@@ -180,6 +185,8 @@
           <li class="nav-item">
             <a class="nav-link" href="query5.html">Ranking</a>
           </li>
+           </li>
+        
           
         </ul>
         
@@ -272,70 +279,68 @@
 
 
   </nav>
-    <!--SQL Query 8: Your own non-trivial queries using at least two tables -->
-    <!--Purpose: Display all movies that belong to genre marked as “Acceptable” in the GENRES at a specific age. -->
-    <!-- Search Form -->
-    <div class="card mb-3">
-      <div class="card-body">
+  <div class="registerForm">
+    <form id="userRegistration">
+      <fieldset>
+        <legend>User Registration</legend>
+        <div>
+          <label for="username" class="form-label mt-4">Username</label>
+          <input type="text" class="form-control" id="username"  placeholder="Username" required>
+        </div>
         
-        <form id="genreForm">
-         <label for="genreDetails" class="form-label mt-4">Enter an age (1-17) to see all movies in acceptable genres.</label>
-         <input type="Text" pattern="\d+" class="form-control w-100" id="genreDetails" placeholder="Please enter a number between 1-17" autocomplete="off">
-         <button type="submit" class="btn btn-secondary custom-search-button  w-100">Search</button>
+        <div>
+          <label for="email" class="form-label mt-4">Email address</label>
+          <input type="email" class="form-control" id="email"  placeholder="Enter email" required>
+          
+        </div>
+        <div>
+          <label for="password" class="form-label mt-4">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off" required>
+        </div>
 
-        </form>
-      </div>
-    </div>
-
-    <!-- Table for displaying results -->
-    <div class="card mb-3"  id="resultSection" style="display: none;">
-      <div class="card-body">
-        <h5>Genre Details</h5>
-        <table class="table table-hover" id="resultsTable">
-          <thead>
-            <tr>
-              <th>Movie Title</th>
-              <th>Movie Genre</th>
-              <th>Minimum Age</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-    </div>
+    
+        <button type="button" class="btn btn-danger mt-3">Submit</button>
+      </fieldset>
+    </form>
+  </div>
+    
 
   </main>
 
-  <!--JavaScript for handing form submission and displaying results-->
+  <!--JavaScript for handing form submission and displaying messages-->
   <script>
+  document.getElementById('registerForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
 
-    document.getElementById('genreForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
+    const username = document.getElementById('username').value;
+    const email    = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-      const genreDetails = document.getElementById('genreDetails').value;
-      const response = await fetch(`/genreDetails?genreDetails=${encodeURIComponent(genreDetails)}`);
-      const tableBody = document.getElementById('tableBody');
-      tableBody.innerHTML = ''; // Clear previous results
-      const resultSection = document.getElementById('resultSection');
+
+    // send the data using a POST request
+    try {
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const result = await response.json();
 
       if (response.ok) {
-        const data = await response.json();
-        data.forEach(({ MovieTitle, MovieGenre, MinimumAge }) => {
-          tableBody.innerHTML += `
-            <tr>
-              <td>${MovieTitle}</td>
-              <td>${MovieGenre}</td>
-              <td>${MinimumAge}</td>
-            </tr>
-          `;
-        });
-        resultSection.style.display = 'block';
+        alert('Registration successful!');
+   
       } else {
-        resultSection.style.display = 'block';
-        resultSection.innerHTML = `<p class="text-danger">No genre with age requirment of ` + genreDetails + ` .</p>`;
+        alert(`Registration failed: username already exists`);
       }
-    });
-    
+    } catch (error) {
+      console.error('Error during registration:', error);
+      alert('An error occurred. Please try again later.');
+    }
+  });
   </script>
+
 </body>
 </html>
