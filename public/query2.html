@@ -125,8 +125,8 @@
       border-radius: 8px;
     }
 
-    .container{
-      max-width:450px;
+    .container {
+      max-width: 450px;
       margin: 0 auto;
     }
 
@@ -134,8 +134,8 @@
     .card-body {
       background-color: transparent !important;
       border: none !important;
-      max-width:450px;
-      margin:0 auto;
+      max-width: 450px;
+      margin: 0 auto;
     }
 
     .table tr {
@@ -163,34 +163,34 @@
 
 
       <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
- 
-      <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="query1.html">User</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="query2.html">Movies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="query3.html">Genre</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="query4.html">Streaming Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="query5.html">Ranking</a>
-          </li>
-          
-        
-        </ul>
-        
-      </div>
-    
-     </nav>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="query1.html">User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="query2.html">Movies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="query3.html">Genre</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="query4.html">Streaming Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="query5.html">Ranking</a>
+            </li>
+
+
+          </ul>
+
+        </div>
+
+      </nav>
 
     </div>
     <div class="middle-section">
@@ -200,7 +200,7 @@
       </button>
     </div>
 
-     <div class="right-section">
+    <div class="right-section">
       <a href="query6.html">
         <button type="button" class="btn btn-danger">Sign in</button>
       </a>
@@ -282,12 +282,10 @@
 
     <div class="container">
       <!--query 6: Custom non-trivial query (JOIN)-->
-      <!--Purpose: List selected movie along with rating descriptions.-->
+      <!--Purpose: List selected movie along with rating, genre, and streaming info.-->
       <label for="movieDropdown" class="form-label mt-4">Select a movie:</label>
       <select class="form-select" id="movieDropdown">
         <option>select a movie</option>
-
-
       </select>
     </div>
 
@@ -301,7 +299,8 @@
             <tr>
               <th>Movie</th>
               <th>Rating</th>
-              <th>Description</th>
+              <th>Genre</th>
+              <th>Streaming</th>
             </tr>
           </thead>
           <tbody id="resultsBody">
@@ -346,17 +345,16 @@
           resultTableBody.innerHTML = ''; // Clear previous results 
           resultSection.style.display = 'block';
           if (data.length > 0) {
-            const { Movie, Rating, Description } = data[0];
+            const { Movie, Rating, Genre, Streaming } = data[0];
             resultTableBody.innerHTML = `
-            <tr>
-              <td>${Movie}</td>
-              <td>${Rating}</td>
-              <td>${Description}</td>
-              
-            </tr>
-        `;
+    <tr>
+      <td>${Movie}</td>
+      <td>${Rating}</td>
+      <td>${Genre}</td>
+      <td>${Streaming}</td>
+    </tr>`;
           } else {
-            resultTableBody.innerHTML = `<tr><td colspan="3">No data found.</td></tr>`;
+            resultTableBody.innerHTML = `<tr><td colspan="4">No data found.</td></tr>`;
           }
         } catch (error) {
           console.error('Error fetching movie details:', error);

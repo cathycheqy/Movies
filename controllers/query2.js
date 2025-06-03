@@ -17,14 +17,15 @@ const getAllMovies = (req, res) => {
 const getMovieDetails = (req, res) => {
     const { Title } = req.query;
     const sql = `
-      SELECT m.Title AS Movie, r.Rating, r.Description
-      FROM MOVIES m
-      JOIN RATINGS r ON m.Rating = r.Rating
-      WHERE m.Title = ?
+      SELECT m.Title AS Movie, m.Rating, m.Genre, m.Streaming
+FROM MOVIES m
+JOIN RATINGS r ON m.Rating = r.Rating 
+WHERE m.Title = ?;
     `;
     db.query(sql, [Title], (err, result) => {
         if (err) {
             console.error('Error fetching movie details:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
             return;
         }
         res.json(result);

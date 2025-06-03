@@ -273,14 +273,14 @@
 
   </nav>
     <!--SQL Query 8: Your own non-trivial queries using at least two tables -->
-    <!--Purpose: Display all movies that belong to genre marked as “Acceptable” in the GENRES at a specific age. -->
+    <!--Purpose: Display all movies available to a user based on their age.-->
     <!-- Search Form -->
     <div class="card mb-3">
       <div class="card-body">
         
         <form id="genreForm">
-         <label for="genreDetails" class="form-label mt-4">Enter an age (1-17) to see all movies in acceptable genres.</label>
-         <input type="Text" pattern="\d+" class="form-control w-100" id="genreDetails" placeholder="Please enter a number between 1-17" autocomplete="off">
+         <label for="genreDetails" class="form-label mt-4">Enter your age to see all movies available for your age.</label>
+         <input type="Text" pattern="\d+" class="form-control w-100" id="genreDetails" placeholder="Please enter your age (0–99)" autocomplete="off">
          <button type="submit" class="btn btn-secondary custom-search-button  w-100">Search</button>
 
         </form>

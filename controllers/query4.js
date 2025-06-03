@@ -17,21 +17,22 @@ const getAllStreamingServices = (req, res) => {
 const getStreamingServiceDetails = (req, res) => {
     const { Streaming } = req.query;
     const sql = `
-        SELECT S.Company, S.Streaming, COUNT(*) AS NumberOfMovies
-        FROM MOVIES M
-        JOIN 
-            STREAMING_SERVICE S ON M.Streaming = S.Streaming
-        GROUP BY 
-            S.Company, S.Streaming
-        HAVING 
-            S.Streaming = ?;
+      SELECT 
+        S.Company, 
+        S.Streaming, 
+        COALESCE(COUNT(M.Movie_ID), 0) AS NumberOfMovies
+      FROM STREAMING_SERVICE S
+      LEFT JOIN MOVIES M ON M.Streaming = S.Streaming
+      WHERE S.Streaming = ?
+      GROUP BY S.Company, S.Streaming;
     `;
     db.query(sql, [Streaming], (err, result) => {
-        if (err) {
-            console.error('Error fetching streaming services details:', err);
-            return;
-        }
-        res.json(result);
+      if (err) {
+        console.error('Error fetching streaming services details:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(result);
     });
-};
+  };
 module.exports = { getAllStreamingServices, getStreamingServiceDetails };
