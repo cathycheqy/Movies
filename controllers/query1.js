@@ -16,12 +16,14 @@ const getAllUsers = (req, res) => {
 // Get details for user
 const getUserDetails = (req, res) => {
     const { Username } = req.query;
-  const sql = `
-    SELECT u.Username, m.Title
-    FROM USERS u
-    JOIN FAVORITE_MOVIES fm ON u.Username = fm.Username
-    JOIN MOVIES m ON fm.Movie_ID = m.Movie_ID
-    WHERE u.Username = ?
+    const sql = `
+        SELECT 
+            u.Username, 
+            m.Title
+        FROM USERS u
+        JOIN FAVORITE_MOVIES fm ON u.Username = fm.Username
+        JOIN MOVIES m ON fm.Movie_ID = m.Movie_ID
+        WHERE u.Username = ?
   `;
     db.query(sql, [Username], (err, result) => {
         if (err) {
@@ -31,4 +33,6 @@ const getUserDetails = (req, res) => {
         res.json(result);
     });
 };
+
+// Export the functions
 module.exports = { getAllUsers, getUserDetails };

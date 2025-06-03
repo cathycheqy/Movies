@@ -4,14 +4,14 @@ const db = require('../dbConfig');
 const getGenreDetails = (req, res) => {
     const genreDetails = req.query.genreDetails; 
     const query = `
-    SELECT 
-  m.Title AS MovieTitle, 
-  m.Genre AS MovieGenre, 
-  r.Minimum_Age AS MinimumAge
-FROM MOVIES m
-JOIN GENRES g ON m.Genre = g.Genre
-JOIN RATINGS r ON m.Rating = r.Rating
-WHERE r.Minimum_Age <= ?
+        SELECT 
+            m.Title AS MovieTitle, 
+            m.Genre AS MovieGenre, 
+            r.Minimum_Age AS MinimumAge
+        FROM MOVIES m
+        JOIN GENRES g ON m.Genre = g.Genre
+        JOIN RATINGS r ON m.Rating = r.Rating
+        WHERE r.Minimum_Age <= ?
     `;
 
     db.query(query, [genreDetails], (err, results) => {
@@ -25,6 +25,5 @@ WHERE r.Minimum_Age <= ?
     });
 };
 
-module.exports = {
-    getGenreDetails,
-};
+// Export the function
+module.exports = { getGenreDetails };
